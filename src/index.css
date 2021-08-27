@@ -1,13 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;1,300&family=Staatliches&display=swap');
+*{
+
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 2em;
+}
+.logo{
+  font-family: 'Staatliches', cursive;
+  letter-spacing: 0.15em;
+  font-size: 3.8rem;
+  font-weight: bold;
+  display: inline-block;
+  text-decoration: none;
+  color: #111;
+  margin: 0.1em 0;
+}
+.search-title{
+  font-family: 'Roboto Condensed', sans-serif;
+  text-transform: capitalize;
+}
+.subtitle{
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.action{
+  display: flex;
+  width: 60%;
+  height: 3.5em;
+  align-items: center;
+  justify-content: flex-start;
+}
+.input{
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px 0 0 3px;
+  background-color: #fff;
+  font-size: 1em;
+  color: rgba(60, 60, 60);
+  padding: 0 1em;
+}
+.button{
+  background-color: #ddd;
+  border-radius: 0 3px 3px 0;
+  color: rgb(60, 60, 60);
+  border: none;
+  height: 3.5em;
+  width: 3.5em;
+  font-size: 1em;
+  cursor: pointer;
+  
+}
+.button svg{
+  width: 60%;
+  height: auto;
+}
+.center{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem auto;
+}
+.output{
+  margin-top: 3em;
+}
+.item{
+  overflow: hidden;
+
+}
+.item img{
+  width: 100%;
+  height: auto;
+  transition: 0.2s ease-out;
+}
+.item:hover img{
+  transform: scale(1.2);
+}
+.keyword-list{
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0.5em 0;
+  padding: 0;
+  font-size: 0.9em;
+  color: rgb(70, 70, 70);
+}
+.keyword{
+  margin: 0.5em;
+}
+.keyword a{
+  color: rgb(70, 70, 70);
+}
+.error{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: rgb(194, 65, 65);
+  font-size: 1.2em;
+}
+.spinner{
+  width: 5em;
+  height: 5em;
+}
+.spinner svg{
+  color: rgb(65, 109, 95);
+  font-size: 5em;
+  animation: spinner 1.2s linear infinite;
+}
+@keyframes spinner{
+  from {
+    transform: 0;
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media screen and (max-width: 768px){
+  .action{
+    width: 100%;
+  }
 }
