@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ImageContextProvider from './store/image-context';
+import UserContextProvider from './store/user-context';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <ImageContextProvider>
-      <App />
-    </ImageContextProvider>
-  </BrowserRouter>,
+  <UserContextProvider>
+    <BrowserRouter>
+      <ImageContextProvider>
+        <App />
+      </ImageContextProvider>
+    </BrowserRouter>
+  </UserContextProvider>,
   document.getElementById('root')
 );
 

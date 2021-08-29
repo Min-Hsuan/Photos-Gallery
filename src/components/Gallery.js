@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ImageItem from './ImageItem';
-import classes from './Gallery.module.css';
+
 
 function group(array, subGroupLength) {
   var index = 0;
@@ -13,6 +13,8 @@ function group(array, subGroupLength) {
 }
 
 const Gallery = (props) => {
+
+  //get latest window size when window has been resized.
   const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {
     function updateSize() {
@@ -21,21 +23,37 @@ const Gallery = (props) => {
     window.addEventListener('resize', updateSize);
   }, []);
 
-  let content;
-  let divide = Math.floor(props.data.length / 3);
+  //set columns of the grid depend on window size.
+  let dividNum = 3;
   if (width < 768) {
-    divide = Math.floor(props.data.length / 2);
+    dividNum = 2;
   }
-
+  if (width < 480) {
+    dividNum = 1;
+  }
+  const divide = Math.floor(props.data.length / dividNum);
+  
+  let content;
   if (props.data.length > 0) {
     const newArray = group(props.data, divide);
     content = newArray.map((array) => {
       const items = array.map((image) => {
         let imgUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z.jpg`;
-        return <ImageItem key={image.id} url={imgUrl} title={image.title} />;
+        let downloadUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z_d.jpg`;
+
+        return (
+          <ImageItem
+            key={image.id}
+            url={imgUrl}
+            title={image.title}
+            downloadUrl={downloadUrl}
+            id={image.id}
+            onOpen={props.onOpen}
+          />
+        );
       });
       return (
-        <ul className={classes.list} key={Math.random() * 100}>
+        <ul className="list" key={Math.random() * 100}>
           {items}
         </ul>
       );
@@ -45,10 +63,7 @@ const Gallery = (props) => {
   }
 
   return (
-    <div
-      className={classes['list-box']}
-      style={{ '--column': width > 768 ? '3' : '2' }}
-    >
+    <div className="list-box" style={{ '--column': dividNum }}>
       {content}
     </div>
   );

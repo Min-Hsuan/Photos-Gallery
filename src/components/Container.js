@@ -5,7 +5,7 @@ import Gallery from './Gallery';
 import LoadingSpinner from './LoadingSpinner';
 
 const Container = (props) => {
-  const { searchText, showTitle } = props;
+  const { searchText, showTitle,onOpen } = props;
   const imagesCtx = useContext(ImageContext);
   const { requestDatas, images, error, isLoading } = imagesCtx;
 
@@ -16,7 +16,7 @@ const Container = (props) => {
   return (
     <div className="output">
       {showTitle && !isLoading && <h2 className="search-title">{searchText}</h2>}
-      {!error && !isLoading && <Gallery data={images} />}
+      {!error && !isLoading && <Gallery data={images} onOpen={onOpen} />}
       {isLoading && (
         <div className="center">
           <LoadingSpinner />

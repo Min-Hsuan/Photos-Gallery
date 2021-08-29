@@ -34,7 +34,7 @@ const ImageContextProvider = (props) => {
     dispatch({ type: 'SEND' });
     try {
       const response = await fetch(
-        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchText}&per_page=24&format=json&nojsoncallback=1`
+        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchText}&per_page=48&format=json&nojsoncallback=1`
       );
       const data = await response.json();
       if (data.stat!=='ok') {
