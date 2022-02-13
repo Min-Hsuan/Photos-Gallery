@@ -1,16 +1,16 @@
-.title{
+.title {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1em;
   padding-bottom: 1em;
-  border-bottom: 1px solid rgb(255, 255, 255,0.3);
+  border-bottom: 1px solid rgb(255, 255, 255, 0.3);
   font-weight: bold;
   letter-spacing: 0.05em;
   padding-right: 1em;
-  color: rgb(60,60,60)
+  color: rgb(60, 60, 60);
 }
-.title>span{
+.title > span {
   color: rgb(255, 255, 255);
 }
 .like-list {
@@ -27,9 +27,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(255, 255, 255,0.3);
+  border-bottom: 1px solid rgb(255, 255, 255, 0.3);
   padding-bottom: 1em;
-
 }
 .img {
   width: 6em;
@@ -38,7 +37,7 @@
 }
 .img img {
   object-fit: fill;
-  height: fit-content;
+  height: auto;
   width: inherit;
 }
 .actions {
@@ -61,18 +60,18 @@
   padding: 0;
   cursor: pointer;
 }
-.button:last-child{
+.button:last-child {
   background-color: rgba(255, 255, 255, 0.5);
-  color: rgb(255,255,255,0.85);
+  color: rgb(255, 255, 255, 0.85);
 }
 
-.close-button{
+.close-button {
   position: absolute;
   left: -1.5em;
   top: 0;
   border: none;
   background-color: #fff;
-  color: rgb(60,60,60);
+  color: rgb(60, 60, 60);
   margin: 0;
   padding: 0;
   width: 1.5em;
@@ -81,11 +80,11 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 480px){
-  .title>span{
+@media screen and (max-width: 480px) {
+  .title > span {
     margin-top: 1.5em;
   }
-  .close-button{
+  .close-button {
     left: 0;
     width: 1.5em;
     height: 1.5em;
