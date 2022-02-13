@@ -6,7 +6,7 @@ Use Flickr API to get photo images.
 ## Demo
 
 ![](https://live.staticflickr.com/65535/51544539776_5a94267faf_b.jpg)
-[Project Demo](https://min-hsuan.github.io/Photos-Gallery/)
+[Project Demo](https://photos-gallery-eight.vercel.app/)
 
 ## Local setup
 
