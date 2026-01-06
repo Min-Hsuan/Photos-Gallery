@@ -8,7 +8,7 @@ import LikeList from './components/LikeList';
 function App() {
   const navigate = useNavigate();
   
-  const submitSearchHandler = (searchText: String) => {
+  const submitSearchHandler = (searchText: string) => {
     let url = `/search/${searchText}`;
     navigate(url);
   };

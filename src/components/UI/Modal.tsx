@@ -1,8 +1,14 @@
+import { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import './Modal.css';
 
-const ModalOverlay = (props) => {
+interface ModalOverlayProps {
+  show: boolean;
+  children: ReactNode;
+}
+
+const ModalOverlay = (props: ModalOverlayProps) => {
   return (
     <CSSTransition
       in={props.show}
@@ -21,7 +27,12 @@ const ModalOverlay = (props) => {
   );
 };
 
-const Backdrop = (props) => {
+interface BackdropProps {
+  show: boolean;
+  onClose: () => void;
+}
+
+const Backdrop = (props: BackdropProps) => {
   return (
     <CSSTransition in={props.show} mountOnEnter unmountOnExit timeout={0}>
       <div className="backdrop" onClick={props.onClose}></div>
@@ -29,9 +40,15 @@ const Backdrop = (props) => {
   );
 };
 
-const portalElement = document.getElementById('overlays');
+const portalElement = document.getElementById('overlays')!;
 
-const Modal = (props) => {
+interface ModalProps {
+  show: boolean;
+  onClose: () => void;
+  children: ReactNode;
+}
+
+const Modal = (props: ModalProps) => {
   return (
     <>
       {createPortal(
@@ -39,7 +56,7 @@ const Modal = (props) => {
         portalElement
       )}
       {createPortal(
-        <ModalOverlay onClose={props.onClose} show={props.show}>
+        <ModalOverlay show={props.show}>
           {props.children}
         </ModalOverlay>,
         portalElement

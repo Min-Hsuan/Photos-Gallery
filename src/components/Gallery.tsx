@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, CSSProperties } from 'react';
 import ImageItem from './ImageItem';
 import { Photo } from '../types'
 
 function group(array: Photo[], subGroupLength: number): Photo[][] {
-  var index = 0;
-  var newArray: Photo[][] = [];
+  let index = 0;
+  const newArray: Photo[][] = [];
 
   while (index < array.length) {
     newArray.push(array.slice(index, (index += subGroupLength)));
@@ -44,8 +44,8 @@ const Gallery = (props: GalleryProps) => {
     const newArray = group(props.data, divide);
     content = newArray.map((array, index) => {
       const items = array.map((image) => {
-        let imgUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z.jpg`;
-        let downloadUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z_d.jpg`;
+        const imgUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z.jpg`;
+        const downloadUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z_d.jpg`;
 
         return (
           <ImageItem
@@ -69,7 +69,10 @@ const Gallery = (props: GalleryProps) => {
   }
 
   return (
-    <div className="list-box" style={{ '--column': dividNum } as React.CSSProperties}>
+    <div 
+      className="list-box" 
+      style={{ '--column': dividNum } as CSSProperties & { '--column': number }}
+    >
       {content}
     </div>
   );

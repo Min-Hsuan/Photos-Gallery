@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, FormEvent, ChangeEvent } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -6,20 +6,26 @@ import { UserContext } from '../store/user-context';
 
 const populars = ['nature', 'ocean', 'froest', 'sunrise', 'snow'];
 
-const Header = (props) => {
+interface HeaderProps {
+  onLoadSearch: (searchText: string) => void;
+  onOpen: () => void;
+}
+
+const Header = (props: HeaderProps) => {
   const userCtx = useContext(UserContext);
   const [enteredInput, setEnteredInput] = useState('');
   const likeListTotal = userCtx.images.length;
 
-  const inputChangeHandler = (event) => {
+  const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEnteredInput(event.target.value);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     props.onLoadSearch(enteredInput);
     setEnteredInput('');
   };
+  
   return (
     <header>
       <div className="head">
@@ -49,8 +55,8 @@ const Header = (props) => {
       </form>
       <ul className="keyword-list">
         <span>Most popular:</span>
-        {populars.map((popular) => (
-          <li key={Math.random() * 100} className="keyword">
+        {populars.map((popular, index) => (
+          <li key={index} className="keyword">
             <Link to={`/search/${popular}`}>{popular}</Link>
           </li>
         ))}

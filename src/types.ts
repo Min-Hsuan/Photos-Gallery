@@ -15,5 +15,5 @@ export interface PhotoCard{
     title: string;
     downloadUrl: string;
     id: string;
-    onOpen: ()=> void
+    onOpen?: ()=> void
 }

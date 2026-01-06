@@ -1,48 +1,59 @@
-import { useReducer, useCallback, createContext } from 'react';
-const apiKey = '80f6bdf0e158fc0cbcb0079320efec39';
-import { Photo} from '../types'
-
-interface ImageContextType{
+import { ReactNode, useReducer, useCallback, createContext } from 'react';
+const apiKey = import.meta.env.VITE_API_KEY
+import { Photo } from '../types'
+interface ImageContextType {
   images: Photo[];
   isLoading: boolean;
   error: string | null;
   requestDatas: (searchText: string) => void;
 }
-export const ImageContext = createContext<ImageContextType>()
 
-interface InitialState{
+export const ImageContext = createContext<ImageContextType>({
+  images: [],
+  isLoading: false,
+  error: null,
+  requestDatas: () => {},
+});
+
+interface State {
   datas: Photo[];
   isLoading: boolean;
   error: string | null;
 }
-interface State{
-  datas: Photo[];
-  isLoading: boolean;
-  error: string | null;
-}
-interface Action{
-  type: 'SEND' | 'SUCCESS'| 'FAILED';
+
+interface Action {
+  type: 'SEND' | 'SUCCESS' | 'FAILED';
   datas?: Photo[];
   errorMessage?: string;
 }
 
-const imagesReducer = (state: State, action:Action) => {
+const initialState: State = {
+  datas: [],
+  isLoading: false,
+  error: null,
+};
+
+const imagesReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SEND':
       return { datas: [], isLoading: true, error: null };
     case 'SUCCESS':
-      return { datas: action.datas, isLoading: false, error: null };
+      return { datas: action.datas || [], isLoading: false, error: null };
     case 'FAILED':
-      return { datas: [], isLoading: false, error: action.errorMessage };
+      return { datas: [], isLoading: false, error: action.errorMessage || null };
     default:
       throw new Error('Should not be reached!');
   }
 };
 
-const ImageContextProvider = (props) => {
+interface ImageContextProviderProps {
+  children: ReactNode;
+}
+
+const ImageContextProvider = (props: ImageContextProviderProps) => {
   const [state, dispatch] = useReducer(imagesReducer, initialState);
 
-  const requestDataHandler = useCallback(async (searchText: String) => {
+  const requestDataHandler = useCallback(async (searchText: string) => {
     dispatch({ type: 'SEND' });
     try {
       const response = await fetch(
@@ -55,11 +66,12 @@ const ImageContextProvider = (props) => {
       dispatch({ type: 'SUCCESS', datas: data.photos.photo });
 
     } catch (error) {
-      dispatch({ type: 'FAILED', errorMessage: error.message });
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      dispatch({ type: 'FAILED', errorMessage });
     }
   }, []);
 
-  const contextValue = {
+  const contextValue: ImageContextType = {
     images: state.datas,
     isLoading: state.isLoading,
     error: state.error,

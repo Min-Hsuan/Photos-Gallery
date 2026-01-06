@@ -7,9 +7,13 @@ import { MdClose } from 'react-icons/md';
 import classes from './LikeList.module.css';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-import {PhotoCard} from '../types'
+import { PhotoCard } from '../types'
 
-const LikeList = (props) => {
+interface LikeListProps {
+  onClose: () => void;
+}
+
+const LikeList = (props: LikeListProps) => {
   const userCtx = useContext(UserContext);
   const { images, removeLike } = userCtx;
   const likeListTotal = userCtx.images.length;

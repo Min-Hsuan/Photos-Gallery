@@ -5,16 +5,24 @@ import Error from './Error';
 import Gallery from './Gallery';
 import LoadingSpinner from './LoadingSpinner';
 
-const Container = (props) => {
+interface ContainerProps {
+  searchText?: string;
+  showTitle?: boolean;
+  onOpen: () => void;
+}
+
+const Container = (props: ContainerProps) => {
   const { searchText: propsSearchText, showTitle, onOpen } = props;
-  const params = useParams();
-  const searchText = params.searchText || propsSearchText;
+  const params = useParams<{ searchText: string }>();
+  const searchText = params.searchText || propsSearchText || '';
   
   const imagesCtx = useContext(ImageContext);
   const { requestDatas, images, error, isLoading } = imagesCtx;
 
   useEffect(() => {
-    requestDatas(searchText);
+    if (searchText) {
+      requestDatas(searchText);
+    }
   }, [requestDatas, searchText]);
 
   return (
