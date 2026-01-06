@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ImageItem from './ImageItem';
-
+import { Photo } from '../types'
 
 function group(array, subGroupLength) {
   var index = 0;
@@ -11,8 +11,11 @@ function group(array, subGroupLength) {
   }
   return newArray;
 }
+interface Props{
+  data: Photo
+}
 
-const Gallery = (props) => {
+const Gallery = (Props) => {
 
   //get latest window size when window has been resized.
   const [width, setWidth] = useState(window.innerWidth);
