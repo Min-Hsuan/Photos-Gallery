@@ -9,3 +9,11 @@ export interface Photo {
   isfriend: number;
   isfamily: number;
 }
+
+export interface PhotoCard{
+    url: string;
+    title: string;
+    downloadUrl: string;
+    id: string;
+    onOpen: ()=> void
+}

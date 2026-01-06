@@ -1,16 +1,16 @@
 import { useState, createContext } from 'react';
-
-export const UserContext = createContext({
-  images: [],
-  addLike: (item) => {},
-  removeLike: (id) => {}
-})
-
+import { PhotoCard} from '../types'
+export const UserContext = createContext<UserContextType>()
+interface UserContextType{
+  images: PhotoCard[],
+  addLike: (item: PhotoCard) => void;
+  removeLike: (id: string)=>void;
+}
 
 const UserContextProvider = (props) => {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<PhotoCard[]>([])
 
-  const addLikeHandler = (item) => {
+  const addLikeHandler = (item: PhotoCard) => {
     const existingItem = images.find(image => item.id === image.id);
     if (existingItem) {
       return;
@@ -19,7 +19,7 @@ const UserContextProvider = (props) => {
     }
   };
 
-  const removeLikeHandler = (id) => {
+  const removeLikeHandler = (id: String) => {
     setImages((prevState) => prevState.filter(item => item.id !== id));
   }
 

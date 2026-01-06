@@ -7,12 +7,14 @@ import { MdClose } from 'react-icons/md';
 import classes from './LikeList.module.css';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+import {PhotoCard} from '../types'
+
 const LikeList = (props) => {
   const userCtx = useContext(UserContext);
   const { images, removeLike } = userCtx;
   const likeListTotal = userCtx.images.length;
 
-  const content = images.map((item) => {
+  const content = images.map((item: PhotoCard) => {
     const removeItemHandler = () => {
       removeLike(item.id);
     };

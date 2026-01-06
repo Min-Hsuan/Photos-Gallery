@@ -2,9 +2,9 @@ import { useContext } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import { HiDownload } from 'react-icons/hi';
 import { UserContext } from '../store/user-context';
+import {PhotoCard} from '../types'
 
-
-const ImageItem = (props) => {
+const ImageItem = (props: PhotoCard) => {
   const {downloadUrl,url,id,title,onOpen} = props;
   const userCtx = useContext(UserContext);
 

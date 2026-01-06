@@ -1,20 +1,32 @@
 import { useReducer, useCallback, createContext } from 'react';
 const apiKey = '80f6bdf0e158fc0cbcb0079320efec39';
+import { Photo} from '../types'
 
-export const ImageContext = createContext({
-  images: [],
-  isLoading: false,
-  error: null,
-  requestDatas: (searchText) => {},
-});
+interface ImageContextType{
+  images: Photo[];
+  isLoading: boolean;
+  error: string | null;
+  requestDatas: (searchText: string) => void;
+}
+export const ImageContext = createContext<ImageContextType>()
 
-const initialState = {
-  datas: [],
-  isLoading: false,
-  error: null,
-};
+interface InitialState{
+  datas: Photo[];
+  isLoading: boolean;
+  error: string | null;
+}
+interface State{
+  datas: Photo[];
+  isLoading: boolean;
+  error: string | null;
+}
+interface Action{
+  type: 'SEND' | 'SUCCESS'| 'FAILED';
+  datas?: Photo[];
+  errorMessage?: string;
+}
 
-const imagesReducer = (state, action) => {
+const imagesReducer = (state: State, action:Action) => {
   switch (action.type) {
     case 'SEND':
       return { datas: [], isLoading: true, error: null };
@@ -30,7 +42,7 @@ const imagesReducer = (state, action) => {
 const ImageContextProvider = (props) => {
   const [state, dispatch] = useReducer(imagesReducer, initialState);
 
-  const requestDataHandler = useCallback(async (searchText) => {
+  const requestDataHandler = useCallback(async (searchText: String) => {
     dispatch({ type: 'SEND' });
     try {
       const response = await fetch(
