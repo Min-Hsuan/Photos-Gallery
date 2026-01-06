@@ -2,28 +2,31 @@ import { useEffect, useState } from 'react';
 import ImageItem from './ImageItem';
 import { Photo } from '../types'
 
-function group(array, subGroupLength) {
+function group(array: Photo[], subGroupLength: number): Photo[][] {
   var index = 0;
-  var newArray = [];
+  var newArray: Photo[][] = [];
 
   while (index < array.length) {
     newArray.push(array.slice(index, (index += subGroupLength)));
   }
   return newArray;
 }
-interface Props{
-  data: Photo
+
+interface GalleryProps {
+  data: Photo[];
+  onOpen: () => void;
 }
 
-const Gallery = (Props) => {
-
+const Gallery = (props: GalleryProps) => {
   //get latest window size when window has been resized.
   const [width, setWidth] = useState(window.innerWidth);
+  
   useEffect(() => {
     function updateSize() {
       setWidth(window.innerWidth);
     }
     window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
   }, []);
 
   //set columns of the grid depend on window size.
@@ -39,7 +42,7 @@ const Gallery = (Props) => {
   let content;
   if (props.data.length > 0) {
     const newArray = group(props.data, divide);
-    content = newArray.map((array) => {
+    content = newArray.map((array, index) => {
       const items = array.map((image) => {
         let imgUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z.jpg`;
         let downloadUrl = `https://live.staticflickr.com/${image.server}/${image.id}_${image.secret}_z_d.jpg`;
@@ -56,7 +59,7 @@ const Gallery = (Props) => {
         );
       });
       return (
-        <ul className="list" key={Math.random() * 100}>
+        <ul className="list" key={index}>
           {items}
         </ul>
       );
@@ -66,7 +69,7 @@ const Gallery = (Props) => {
   }
 
   return (
-    <div className="list-box" style={{ '--column': dividNum }}>
+    <div className="list-box" style={{ '--column': dividNum } as React.CSSProperties}>
       {content}
     </div>
   );

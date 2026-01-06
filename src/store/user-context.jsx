@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import { useState, createContext } from 'react';
 
-export const UserContext = React.createContext({
+export const UserContext = createContext({
   images: [],
-  addLike: (item)=>{},
-  removeLike: (id)=>{}
+  addLike: (item) => {},
+  removeLike: (id) => {}
 })
 
 
-const UserContextProvider = (props)=>{
+const UserContextProvider = (props) => {
   const [images, setImages] = useState([]);
 
-  const addLikeHandler = (item)=>{
-    const existingItem = images.find(image=>item.id === image.id);
-    if(existingItem){
+  const addLikeHandler = (item) => {
+    const existingItem = images.find(image => item.id === image.id);
+    if (existingItem) {
       return;
-    }else{
-      setImages((prevState)=>prevState.concat(item))
+    } else {
+      setImages((prevState) => prevState.concat(item))
     }
   };
 
-  const removeLikeHandler = (id)=>{
-    setImages((prevState)=>prevState.filter(item=> item.id!==id));
+  const removeLikeHandler = (id) => {
+    setImages((prevState) => prevState.filter(item => item.id !== id));
   }
 
 

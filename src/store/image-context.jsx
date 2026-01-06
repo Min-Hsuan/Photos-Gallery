@@ -1,7 +1,7 @@
-import React, { useReducer, useCallback } from 'react';
+import { useReducer, useCallback, createContext } from 'react';
 const apiKey = '80f6bdf0e158fc0cbcb0079320efec39';
 
-export const ImageContext = React.createContext({
+export const ImageContext = createContext({
   images: [],
   isLoading: false,
   error: null,
@@ -37,15 +37,15 @@ const ImageContextProvider = (props) => {
         `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchText}&per_page=48&format=json&nojsoncallback=1`
       );
       const data = await response.json();
-      if (data.stat!=='ok') {
-        throw new Error("Encountered an error with fetching and parsing data. "+data.message);
+      if (data.stat !== 'ok') {
+        throw new Error("Encountered an error with fetching and parsing data. " + data.message);
       }
       dispatch({ type: 'SUCCESS', datas: data.photos.photo });
 
     } catch (error) {
       dispatch({ type: 'FAILED', errorMessage: error.message });
     }
-  },[]);
+  }, []);
 
   const contextValue = {
     images: state.datas,

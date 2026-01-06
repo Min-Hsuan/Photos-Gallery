@@ -1,6 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
+import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import './Modal.css';
 
@@ -35,18 +33,18 @@ const portalElement = document.getElementById('overlays');
 
 const Modal = (props) => {
   return (
-    <React.Fragment>
-      {ReactDOM.createPortal(
+    <>
+      {createPortal(
         <Backdrop onClose={props.onClose} show={props.show} />,
         portalElement
       )}
-      {ReactDOM.createPortal(
+      {createPortal(
         <ModalOverlay onClose={props.onClose} show={props.show}>
           {props.children}
         </ModalOverlay>,
         portalElement
       )}
-    </React.Fragment>
+    </>
   );
 };
 
