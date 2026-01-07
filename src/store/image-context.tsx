@@ -54,8 +54,12 @@ const imagesReducer = (state: State, action: Action): State => {
         error: null 
       };
     case 'SUCCESS':
+      const combinedPhotos = [...state.datas, ...action.datas || []]
+      const unique = Array.from(
+        new Map(combinedPhotos.map((photo: FlickrPhoto)=>[photo.id, photo])).values()
+      )
       return { 
-        datas: [...state.datas, ...(action.datas || [])],
+        datas: unique,
         isLoading: false, 
         error: null,
         pageNum: state.pageNum + 1, 
@@ -101,7 +105,8 @@ const ImageContextProvider = (props: ImageContextProviderProps) => {
       if (data.stat !== 'ok') {
         throw new Error("Encountered an error with fetching and parsing data. " + data.message);
       }
-      const filteredPhotos: FlickrPhoto[] = data.photos.photo.map((photo: FlickrPhoto) => {
+      
+      const fetchedPhotos: FlickrPhoto[] = data.photos.photo.map((photo: FlickrPhoto) => {
         return {
           ...photo,
           aspect: photo.width_m && photo.height_m ? photo.width_m / photo.height_m : 1
@@ -109,7 +114,7 @@ const ImageContextProvider = (props: ImageContextProviderProps) => {
       });
       dispatch({ 
         type: 'SUCCESS', 
-        datas: filteredPhotos, 
+        datas: fetchedPhotos, 
         hasMore: data.photos.pages > pageNum
       });
 

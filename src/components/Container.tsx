@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import React,{ useContext, useEffect, useRef,useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { ImageContext } from '../store/image-context';
 import Error from './Error';
@@ -27,7 +27,7 @@ const Container = (props: ContainerProps) => {
 
   // Masonic 的無限滾動載入
   const maybeLoadMore = useInfiniteLoader(
-    async (startIndex: number, stopIndex: number) => {
+    async () => {
       if (hasMore && !isLoading && searchText) {
         await requestDatas(searchText, pageNum);
       }
@@ -49,7 +49,7 @@ const Container = (props: ContainerProps) => {
   }, [searchText, requestDatas, resetData]);
 
   // ImageItem 組件
-  const ImageItem = ({ data, width }: { data: Photo; width: number }) => {
+  const ImageItem = React.memo(({ data }: { data: Photo; width: number }) => {
     const imgUrl = `https://live.staticflickr.com/${data.server}/${data.id}_${data.secret}_z.jpg`;
     const downloadUrl = `https://live.staticflickr.com/${data.server}/${data.id}_${data.secret}_z_d.jpg`;
     
@@ -58,9 +58,9 @@ const Container = (props: ContainerProps) => {
       userCtx.addLike({ url: imgUrl, title: data.title, downloadUrl, id: data.id });
       onOpen();
     };
-
+    
     return (
-      <li className="item">
+      <li className="item" style={{ aspectRatio: `${data.width_m} / ${data.height_m}`}}>
         <img src={imgUrl} alt={data.title} loading="lazy" style={{ width: '100%' }} />
         <div className="user-actions">
           <button className="user-action" onClick={addLikeHandler}>
@@ -72,8 +72,8 @@ const Container = (props: ContainerProps) => {
         </div>
       </li>
     );
-  };
-
+  });
+  const getKey = useCallback((data: Photo) => data.id, []);
   return (
     <div className="output">
       {showTitle && !isLoading && <h2 className="search-title">{searchText}</h2>}
@@ -85,8 +85,10 @@ const Container = (props: ContainerProps) => {
       {!error && images.length > 0 && (
         <Masonry
           items={images}
+          itemKey={getKey}
           columnGutter={16}
           columnWidth={300}
+          overscanBy={6}
           render={ImageItem}
           onRender={maybeLoadMore}
         />
