@@ -20,7 +20,7 @@ const ImageItem = (props: PhotoCard) => {
   
   return (
     <li className="item">
-      <img src={url} alt={title} />
+      <img src={url} alt={title} loading='lazy'/>
       <div className='user-actions'>
         <button className='user-action' onClick={addLikeHandler}>
           <FaHeart />

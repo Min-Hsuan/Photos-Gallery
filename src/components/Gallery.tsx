@@ -19,8 +19,7 @@ interface GalleryProps {
 
 const Gallery = (props: GalleryProps) => {
   //get latest window size when window has been resized.
-  const [width, setWidth] = useState(window.innerWidth);
-  
+  const [width, setWidth] = useState(window.innerWidth);({rootMargin: '100px'})
   useEffect(() => {
     function updateSize() {
       setWidth(window.innerWidth);
@@ -49,7 +48,7 @@ const Gallery = (props: GalleryProps) => {
 
         return (
           <ImageItem
-            key={image.id}
+            key={`${image.id}-${index}`}
             url={imgUrl}
             title={image.title}
             downloadUrl={downloadUrl}

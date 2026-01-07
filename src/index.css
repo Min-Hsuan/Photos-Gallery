@@ -190,7 +190,10 @@ img{
   font-size: 5em;
   animation: spinner 1.2s linear infinite;
 }
-
+.placeholder{
+  width: 100%;
+  height: 500px;
+}
 @keyframes spinner{
   from {
     transform: 0;
