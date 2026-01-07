@@ -8,14 +8,9 @@ export interface Photo {
   ispublic: number;
   isfriend: number;
   isfamily: number;
-}
-
-export interface PhotoCard {
-  url: string;
-  title: string;
-  downloadUrl: string;
-  id: string;
-  onOpen: () => void;
+  aspect?: number;
+  width_m?: number;
+  height_m?: number;
 }
 
 export interface LikedPhoto {

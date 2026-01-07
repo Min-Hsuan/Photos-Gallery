@@ -19,7 +19,6 @@ interface UserContextProviderProps {
 
 const UserContextProvider = (props: UserContextProviderProps) => {
   const [images, setImages] = useState<LikedPhoto[]>([])
-
   const addLikeHandler = (item: LikedPhoto) => {
     const existingItem = images.find(image => item.id === image.id);
     if (existingItem) {

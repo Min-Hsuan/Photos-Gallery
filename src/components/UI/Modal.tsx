@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
+import { useContext, ReactNode, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { ModalContext } from '../../store/modal-context';
 import { CSSTransition } from 'react-transition-group';
 import './Modal.css';
 
@@ -9,6 +10,7 @@ interface ModalOverlayProps {
 }
 
 const ModalOverlay = (props: ModalOverlayProps) => {
+  const nodeRef = useRef<HTMLDivElement>(null)
   return (
     <CSSTransition
       in={props.show}
@@ -21,6 +23,7 @@ const ModalOverlay = (props: ModalOverlayProps) => {
         exit: '',
         exitActive: 'ModalClosed',
       }}
+      nodeRef={nodeRef}
     >
       <div className="overlay">{props.children}</div>
     </CSSTransition>
@@ -33,8 +36,10 @@ interface BackdropProps {
 }
 
 const Backdrop = (props: BackdropProps) => {
+  const nodeRef = useRef<HTMLDivElement>(null)
+
   return (
-    <CSSTransition in={props.show} mountOnEnter unmountOnExit timeout={0}>
+    <CSSTransition in={props.show} mountOnEnter unmountOnExit timeout={0} nodeRef={nodeRef}>
       <div className="backdrop" onClick={props.onClose}></div>
     </CSSTransition>
   );
@@ -49,10 +54,12 @@ interface ModalProps {
 }
 
 const Modal = (props: ModalProps) => {
+  const modalContext = useContext(ModalContext);
+
   return (
     <>
       {createPortal(
-        <Backdrop onClose={props.onClose} show={props.show} />,
+        <Backdrop onClose={modalContext.setModalClosed} show={props.show} />,
         portalElement
       )}
       {createPortal(

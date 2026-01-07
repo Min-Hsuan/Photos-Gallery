@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { UserContext } from '../store/user-context';
 
 import { FaHeart } from 'react-icons/fa';
@@ -14,6 +14,7 @@ interface LikeListProps {
 }
 
 const LikeList = (props: LikeListProps) => {
+  const nodeRef = useRef<HTMLDivElement>(null)
   const userCtx = useContext(UserContext);
   const { images, removeLike } = userCtx;
   const likeListTotal = userCtx.images.length;
@@ -23,7 +24,7 @@ const LikeList = (props: LikeListProps) => {
       removeLike(item.id);
     };
     return (
-      <CSSTransition key={item.id} timeout={200} classNames='fade-out'>
+      <CSSTransition key={item.id} timeout={200} classNames='fade-out' nodeRef={nodeRef}>
         <li className={classes['like-item']}>
           <div className={classes.img}>
             <img src={item.url} alt={item.title} />

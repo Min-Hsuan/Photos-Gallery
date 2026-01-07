@@ -8,7 +8,7 @@ interface ImageContextType {
   error: string | null;
   pageNum: number;
   hasMore: boolean;
-  requestDatas: (searchText: string, pageNum: number) => void;
+  requestDatas: (searchText: string, pageNum: number) => Promise<void>;
   resetData: () => void;
 }
 
@@ -18,7 +18,7 @@ export const ImageContext = createContext<ImageContextType>({
   error: null,
   pageNum: 1,
   hasMore: true,
-  requestDatas: () => {},
+  requestDatas: async () => {},
   resetData: () => {},
 });
 
@@ -55,7 +55,7 @@ const imagesReducer = (state: State, action: Action): State => {
       };
     case 'SUCCESS':
       return { 
-        datas: [...state.datas, ...(action.datas || [])],  // 累加圖片
+        datas: [...state.datas, ...(action.datas || [])],
         isLoading: false, 
         error: null,
         pageNum: state.pageNum + 1, 
@@ -78,6 +78,12 @@ interface ImageContextProviderProps {
   children: ReactNode;
 }
 
+interface FlickrPhoto extends Photo {
+  width_m?: number;
+  height_m?: number;
+  aspect?: number;
+}
+
 const ImageContextProvider = (props: ImageContextProviderProps) => {
   const [state, dispatch] = useReducer(imagesReducer, initialState);
 
@@ -85,19 +91,25 @@ const ImageContextProvider = (props: ImageContextProviderProps) => {
     dispatch({ type: 'RESET' });
   }, []);
 
-  const requestDataHandler = useCallback(async (searchText: string, pageNum: number) => {
+  const requestDataHandler = useCallback(async (searchText: string, pageNum: number): Promise<void> => {
     dispatch({ type: 'SEND' });
     try {
       const response = await fetch(
-        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchText}&per_page=48&page=${pageNum}&format=json&nojsoncallback=1`
+        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${searchText}&per_page=48&page=${pageNum}&extras=url_m,width_m,height_m&format=json&nojsoncallback=1`
       );
       const data = await response.json();
       if (data.stat !== 'ok') {
         throw new Error("Encountered an error with fetching and parsing data. " + data.message);
       }
+      const filteredPhotos: FlickrPhoto[] = data.photos.photo.map((photo: FlickrPhoto) => {
+        return {
+          ...photo,
+          aspect: photo.width_m && photo.height_m ? photo.width_m / photo.height_m : 1
+        }
+      });
       dispatch({ 
         type: 'SUCCESS', 
-        datas: data.photos.photo, 
+        datas: filteredPhotos, 
         hasMore: data.photos.pages > pageNum
       });
 

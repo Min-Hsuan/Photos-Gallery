@@ -99,23 +99,28 @@ body {
   margin-top: 3em;
 }
 .list-box{
-  display: grid;
+  /* display: grid;
+  grid-template-rows: masonry;
   grid-template-columns: repeat(var(--column),minmax(0,1fr));
   gap: 1.5em;
-  align-items: start;
+  align-items: start; */
 }
 .list{
-  display: grid;
+  /* display: grid;
   grid-template-columns: minmax(0,1fr);
   row-gap: 1.5em;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0; */
+  columns: var(--column);
+  column-gap: 1.5em;
+  row-gap: 1.5em;
 }
 
 .item{
   overflow: hidden;
   position: relative;
+  break-inside: avoid;
 }
 img{
   width: 100%;
