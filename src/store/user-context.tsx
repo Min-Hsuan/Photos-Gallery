@@ -1,9 +1,9 @@
 import { ReactNode, useState, createContext } from 'react';
-import { PhotoCard } from '../types'
+import { LikedPhoto } from '../types'
 
 interface UserContextType {
-  images: PhotoCard[];
-  addLike: (item: PhotoCard) => void;
+  images: LikedPhoto[];
+  addLike: (item: LikedPhoto) => void;
   removeLike: (id: string) => void;
 }
 
@@ -18,9 +18,9 @@ interface UserContextProviderProps {
 }
 
 const UserContextProvider = (props: UserContextProviderProps) => {
-  const [images, setImages] = useState<PhotoCard[]>([])
+  const [images, setImages] = useState<LikedPhoto[]>([])
 
-  const addLikeHandler = (item: PhotoCard) => {
+  const addLikeHandler = (item: LikedPhoto) => {
     const existingItem = images.find(image => item.id === image.id);
     if (existingItem) {
       return;

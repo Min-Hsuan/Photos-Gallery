@@ -10,10 +10,17 @@ export interface Photo {
   isfamily: number;
 }
 
-export interface PhotoCard{
-    url: string;
-    title: string;
-    downloadUrl: string;
-    id: string;
-    onOpen?: ()=> void
+export interface PhotoCard {
+  url: string;
+  title: string;
+  downloadUrl: string;
+  id: string;
+  onOpen: () => void;
+}
+
+export interface LikedPhoto {
+  url: string;
+  title: string;
+  downloadUrl: string;
+  id: string;
 }
